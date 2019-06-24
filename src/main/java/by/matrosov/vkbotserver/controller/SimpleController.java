@@ -11,7 +11,7 @@ public class SimpleController {
     @RequestMapping(value = "/vk", method = RequestMethod.POST)
     @ResponseBody
     public String hello(){
-        return "17d23e42";
+        return "12ed1bba";
     }
 
 }
