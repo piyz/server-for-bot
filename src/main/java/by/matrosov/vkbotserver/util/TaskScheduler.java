@@ -33,8 +33,8 @@ public class TaskScheduler {
     @PostConstruct
     public void initTask(){
         Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 24);
-        today.set(Calendar.MINUTE, 25);
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 35);
         today.set(Calendar.SECOND, 0);
 
         taskScheduler.threadPoolTaskScheduler().scheduleAtFixedRate(
