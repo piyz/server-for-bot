@@ -34,8 +34,8 @@ public class TaskScheduler {
     @PostConstruct
     public void initTask(){
         Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 21);
-        today.set(Calendar.MINUTE, 55);
+        today.set(Calendar.HOUR_OF_DAY, 22);
+        today.set(Calendar.MINUTE, 22);
         today.set(Calendar.SECOND, 0);
 
         System.out.println(today.getTime());
