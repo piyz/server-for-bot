@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Component
@@ -33,12 +34,12 @@ public class TaskScheduler {
     @PostConstruct
     public void initTask(){
         Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 0);
-        today.set(Calendar.MINUTE, 35);
+        today.set(Calendar.HOUR_OF_DAY, 2);
+        today.set(Calendar.MINUTE, 0);
         today.set(Calendar.SECOND, 0);
 
         taskScheduler.threadPoolTaskScheduler().scheduleAtFixedRate(
-                new StatisticTask(), today.getTime(), 1000 * 60 * 60 * 24);
+                new StatisticTask(), today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
     }
 
     class StatisticTask implements Runnable {
