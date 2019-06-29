@@ -34,9 +34,11 @@ public class TaskScheduler {
     @PostConstruct
     public void initTask(){
         Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 2);
-        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.HOUR_OF_DAY, 21);
+        today.set(Calendar.MINUTE, 50);
         today.set(Calendar.SECOND, 0);
+
+        System.out.println(today.getTime());
 
         taskScheduler.threadPoolTaskScheduler().scheduleAtFixedRate(
                 new StatisticTask(), today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
