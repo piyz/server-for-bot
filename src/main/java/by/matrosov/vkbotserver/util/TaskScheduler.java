@@ -33,12 +33,12 @@ public class TaskScheduler {
     @PostConstruct
     public void initTask(){
         Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 21);
+        today.set(Calendar.HOUR_OF_DAY, 3);
         today.set(Calendar.MINUTE, 0);
         today.set(Calendar.SECOND, 0);
 
         taskScheduler.threadPoolTaskScheduler().scheduleAtFixedRate(
-                new StatisticTask(), today.getTime(), 30000); //10 sec
+                new StatisticTask(), today.getTime(), 1000 * 60 * 60 * 24); //10 sec
     }
 
     class StatisticTask implements Runnable {
