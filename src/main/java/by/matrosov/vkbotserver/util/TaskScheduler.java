@@ -25,6 +25,9 @@ import java.util.stream.Collectors;
 public class TaskScheduler {
 
     private static final Logger logger = LoggerFactory.getLogger(TaskScheduler.class);
+    private static final int groupId = 183794818;
+    private static final String ACCESS_TOKEN = "8db7703318f5909bdd18c77016b0de158b033e2c9afda73e2dfbfe371822f4fbea12921f71b76e5db351c";
+    private static final int peerId = 2000000001;
 
     @Autowired
     private ThreadPoolTaskSchedulerConfig taskScheduler;
@@ -34,21 +37,15 @@ public class TaskScheduler {
     @PostConstruct
     public void initTask(){
         Calendar today = Calendar.getInstance();
-        today.set(Calendar.HOUR_OF_DAY, 22);
-        today.set(Calendar.MINUTE, 22);
-        today.set(Calendar.SECOND, 0);
-
-        System.out.println(today.getTime());
+        today.set(Calendar.HOUR_OF_DAY, 20);
+        today.set(Calendar.MINUTE, 59);
+        today.set(Calendar.SECOND, 59);
 
         taskScheduler.threadPoolTaskScheduler().scheduleAtFixedRate(
                 new StatisticTask(), today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
     }
 
     class StatisticTask implements Runnable {
-
-        private static final int groupId = 183794818;
-        private static final String ACCESS_TOKEN = "8db7703318f5909bdd18c77016b0de158b033e2c9afda73e2dfbfe371822f4fbea12921f71b76e5db351c";
-        private static final int peerId = 2000000001;
 
         @Override
         public void run() {
