@@ -1,7 +1,9 @@
 package by.matrosov.vkbotserver.util;
 
 import by.matrosov.vkbotserver.config.ThreadPoolTaskSchedulerConfig;
+import by.matrosov.vkbotserver.model.HistoryMessage;
 import by.matrosov.vkbotserver.model.Message;
+import by.matrosov.vkbotserver.service.HistoryService;
 import by.matrosov.vkbotserver.service.MessageService;
 import com.vk.api.sdk.client.TransportClient;
 import com.vk.api.sdk.client.VkApiClient;
@@ -14,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -33,13 +32,15 @@ public class TaskScheduler {
     private ThreadPoolTaskSchedulerConfig taskScheduler;
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private HistoryService historyService;
 
     @PostConstruct
     public void initTask(){
         Calendar today = Calendar.getInstance();
         today.set(Calendar.HOUR_OF_DAY, 20);
         today.set(Calendar.MINUTE, 59);
-        today.set(Calendar.SECOND, 59);
+        today.set(Calendar.SECOND, 0);
 
         taskScheduler.threadPoolTaskScheduler().scheduleAtFixedRate(
                 new StatisticTask(), today.getTime(), TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
@@ -50,6 +51,11 @@ public class TaskScheduler {
         @Override
         public void run() {
             logger.info("send statistic...");
+
+            //current timestamp
+            Calendar calendar = Calendar.getInstance();
+            long timestamp = calendar.getTimeInMillis();
+
             TransportClient transportClient = HttpTransportClient.getInstance();
             VkApiClient vk = new VkApiClient(transportClient);
             GroupActor actor = new GroupActor(groupId, ACCESS_TOKEN);
@@ -68,6 +74,7 @@ public class TaskScheduler {
                 freq.forEach((k,v) -> {
                     try {
                         sendMessageToVkConversation(vk, actor, "Пользователем " + k + " отправлено " + v + " сообщений");
+                        historyService.add(new HistoryMessage(k, v, String.valueOf(timestamp)));
                     } catch (ClientException e) {
                         e.printStackTrace();
                     }
