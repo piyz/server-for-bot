@@ -8,5 +8,6 @@ import java.util.List;
 @Service
 public interface MessageService {
     void add(Message message);
+    void deleteAll();
     List<Message> getAll();
 }

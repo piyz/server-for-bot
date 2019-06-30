@@ -19,6 +19,11 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
+    public void deleteAll() {
+        messageRepository.deleteAll();
+    }
+
+    @Override
     public List<Message> getAll() {
         return messageRepository.findAll();
     }

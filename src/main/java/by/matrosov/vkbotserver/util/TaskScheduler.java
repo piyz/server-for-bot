@@ -76,6 +76,9 @@ public class TaskScheduler {
 
             } catch (ClientException e) {
                 e.printStackTrace();
+            } finally {
+                logger.info("clear db...");
+                messageService.deleteAll();
             }
         }
     }
