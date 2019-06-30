@@ -54,7 +54,7 @@ public class TaskScheduler {
             VkApiClient vk = new VkApiClient(transportClient);
             GroupActor actor = new GroupActor(groupId, ACCESS_TOKEN);
             try {
-                vk.messages().send(actor).peerId(peerId).message("Отправляем статистику...").executeAsRaw();
+                sendMessageToVkConversation(vk, actor,"Отправляем статистику...");
 
                 List<Integer> owners = new ArrayList<>();
                 List<Message> listMessages = messageService.getAll();
@@ -67,8 +67,7 @@ public class TaskScheduler {
 
                 freq.forEach((k,v) -> {
                     try {
-                        vk.messages().send(actor).peerId(peerId)
-                                .message("Пользователем " + k + " отправлено " + v + " сообщений").executeAsRaw();
+                        sendMessageToVkConversation(vk, actor, "Пользователем " + k + " отправлено " + v + " сообщений");
                     } catch (ClientException e) {
                         e.printStackTrace();
                     }
@@ -81,5 +80,9 @@ public class TaskScheduler {
                 messageService.deleteAll();
             }
         }
+    }
+
+    private void sendMessageToVkConversation(VkApiClient vk, GroupActor actor, String text) throws ClientException {
+        vk.messages().send(actor).peerId(peerId).message(text).executeAsRaw();
     }
 }
