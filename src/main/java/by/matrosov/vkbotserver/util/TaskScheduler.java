@@ -27,7 +27,7 @@ public class TaskScheduler {
     private static final Logger logger = LoggerFactory.getLogger(TaskScheduler.class);
     private static final int groupId = 183794818;
     private static final String ACCESS_TOKEN = "8db7703318f5909bdd18c77016b0de158b033e2c9afda73e2dfbfe371822f4fbea12921f71b76e5db351c";
-    private static final int peerId = 2000000002;
+    private static final int peerId = 2000000003;
 
     @Autowired
     private ThreadPoolTaskSchedulerConfig taskScheduler;
